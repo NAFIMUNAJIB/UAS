@@ -46,3 +46,42 @@ def catat_transaksi_stok(id_barang, id_pengguna, jenis, jumlah, keterangan=""):
     finally:
         cursor.close()
         conn.close()
+
+
+def lihat_riwayat_transaksi(jenis):
+    if jenis not in ('masuk', 'keluar'):
+        print("[!] Jenis transaksi tidak valid.")
+        return
+
+    conn = get_connection()
+    if not conn:
+        return
+    try:
+        cursor = conn.cursor(dictionary=True)
+        query = """
+            SELECT t.*, b.nama_barang
+            FROM transaksi_stok t
+            LEFT JOIN barang b ON t.id_barang = b.id_barang
+            WHERE t.jenis_transaksi = %s
+            ORDER BY t.id_transaksi DESC
+        """
+        cursor.execute(query, (jenis,))
+        results = cursor.fetchall()
+
+        print("\n" + "=" * 70)
+        print(f"RIWAYAT TRANSAKSI BARANG {jenis.upper()}")
+        print("=" * 70)
+        if not results:
+            print("Belum ada riwayat transaksi.")
+        else:
+            for transaksi in results:
+                print("-" * 70)
+                for kolom, nilai in transaksi.items():
+                    label = kolom.replace("_", " ").title()
+                    print(f"{label:<22}: {nilai}")
+        print("=" * 70)
+    except Exception as e:
+        print(f"[!] Gagal mengambil riwayat transaksi: {e}")
+    finally:
+        cursor.close()
+        conn.close()

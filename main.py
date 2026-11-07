@@ -1,6 +1,6 @@
 import sys
 from barang import tambah_barang, lihat_semua_barang, cek_stok_menipis
-from transaksi import catat_transaksi_stok
+from transaksi import catat_transaksi_stok, lihat_riwayat_transaksi
 
 def menu_utama():
     while True:
@@ -11,11 +11,13 @@ def menu_utama():
         print(" 2. Tambah Barang Baru")
         print(" 3. Transaksi Barang Masuk (Restok)")
         print(" 4. Transaksi Barang Keluar")
-        print(" 5. Cek Peringatan Stok Menipis")
-        print(" 6. Keluar Program")
+        print(" 5. Riwayat Transaksi Masuk")
+        print(" 6. Riwayat Transaksi Keluar")
+        print(" 7. Cek Peringatan Stok Menipis")
+        print(" 8. Keluar Program")
         print("=" * 50)
 
-        pilihan = input("Pilih menu (1-6): ").strip()
+        pilihan = input("Pilih menu (1-8): ").strip()
 
         if pilihan == '1':
             lihat_semua_barang()
@@ -45,8 +47,12 @@ def menu_utama():
             ket = input("Keterangan         : ")
             catat_transaksi_stok(id_b, id_p, 'keluar', jml, ket)
         elif pilihan == '5':
-            cek_stok_menipis()
+            lihat_riwayat_transaksi('masuk')
         elif pilihan == '6':
+            lihat_riwayat_transaksi('keluar')
+        elif pilihan == '7':
+            cek_stok_menipis()
+        elif pilihan == '8':
             print("\n[✓] Terima kasih, program selesai!")
             sys.exit()
         else:
