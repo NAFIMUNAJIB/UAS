@@ -6,7 +6,7 @@ def get_connection():
         connection = mysql.connector.connect(
             host='localhost',
             user='root',
-            password='',  # Sesuaikan jika password MySQL XAMPP kamu diisi
+            password='',  
             database='db_inventaris_stok'
         )
         if connection.is_connected():
